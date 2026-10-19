@@ -1,32 +1,38 @@
-# What Happens Next? — Streamlit demo
+# What Happens Next? — Version 2
 
-An interactive showcase based on a real PyTorch LSTM trained on BPIC2012.
+A presentation-ready Streamlit demonstration of a PyTorch LSTM trained to predict the next event in BPIC2012 loan application histories. Inspired by the research *A Deep Learning Approach to Business Process Mining*.
+
+## What's new
+
+- Connected observed-history path and probability-weighted prediction branches
+- A revealable recorded outcome on the same graph
+- Human-readable English activity labels while preserving original model tokens
+- Presentation mode with an audience guessing experiment
+- Clear explanation of the data, limitations and uncalibrated probabilities
+
+## Update your GitHub repository
+
+Replace `app.py` and `README.md` with the versions in this ZIP. The included `model.pt`, `metadata.json`, `demo_cases.csv.gz` and `requirements.txt` are unchanged from Version 1 and may be left in place. Streamlit Community Cloud will redeploy automatically after your GitHub commit.
 
 ## Run locally
-
-1. Install Python 3.10+.
-2. Extract this ZIP into a folder.
-3. In a terminal in that folder, run:
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Streamlit prints a local URL (normally http://localhost:8501).
+## Showcase script (2–3 minutes)
 
-## Deploy
+1. “Have you ever applied for something and wondered what happens behind the scenes?”
+2. Choose an application and explain the recorded journey.
+3. Ask the audience to guess the next step.
+4. Show the LSTM's probabilities; emphasise uncertainty.
+5. Reveal the actual next event. Whether right or wrong, discuss why a probabilistic forecast is useful but not a guarantee.
+6. Close: “The next step is to help people see not only what might happen, but where processes change.”
 
-Upload the folder's files to a GitHub repository and create a new Streamlit Community Cloud app pointing at `app.py`. Keep `model.pt`, `metadata.json`, and `demo_cases.csv.gz` alongside `app.py`. The dashboard runs inference on CPU; it does not retrain the model.
+## Limitations
 
-## Provenance and caveats
-
-- Trained weights and metadata come from the uploaded `what_happens_next_trained_model.zip`.
-- Demo histories are sampled from the uploaded BPIC2012.csv (original row order preserved; original case IDs replaced with demo IDs).
-- 52.54% top-1 accuracy is the value reported by the training metadata, not a new independent benchmark.
-- The network's output probabilities are uncalibrated. The process graphic visualizes prediction options, not neural reasoning or causality.
-- This version deliberately does not estimate delays or run counterfactual interventions.
-
-## Showcase tip
-
-Move the slider through a case, reveal the next event, and repeat with another case. Emphasise that the model sometimes gets it wrong, and that transparent limitations matter.
+- Test accuracy is the reported 52.54% top-1 value, not newly verified here.
+- This is next-event prediction, not causal explanation, time prediction or drift detection.
+- Friendly labels are display translations, not changes to model data.
+- Test the deployed app before presenting; keep a backup screen recording.
