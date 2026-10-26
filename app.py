@@ -9,7 +9,7 @@ import torch
 from torch import nn
 
 ROOT = Path(__file__).resolve().parent
-st.set_page_config(page_title='What Happens Next? | Process Intelligence', page_icon='🔮', layout='wide')
+st.set_page_config(page_title='What Happens Next? | Process Intelligence', page_icon='', layout='wide')
 st.markdown('''<style>
 .stApp {background:linear-gradient(125deg,#0b1224 0%,#111c33 60%,#0d1830 100%);color:#eaf2ff}
 [data-testid="stSidebar"] {background:#111b30}
@@ -175,7 +175,7 @@ st.markdown('''<div class="hero"><div class="hero-eyebrow">✦ AI · PROCESS INT
 st.caption('A live interactive demonstration built from doctoral research in predictive process mining.')
 
 if presentation:
-    st.info('🎤 **Audience challenge:** Pick a case, look at its history, and vote on the next event before revealing the recorded answer.')
+    st.info(' Pick a case, look at its history, what could be the next event 🤔.')
 
 c1,c2,c3=st.columns(3)
 c1.metric('Held-out top-1 accuracy',f"{metrics['test']['accuracy']:.1%}")
@@ -222,8 +222,8 @@ if presentation:
     guess=st.radio('What do you think happens next?',choices,
         format_func=friendly,horizontal=False,key=f'guess_{case_id}_{n}',
         disabled=revealed)
-    st.caption('For an unbiased audience challenge, ask for a vote before scrolling up to the AI forecast.')
-if st.button('✨ Reveal what actually happened',type='primary',disabled=revealed):
+    st.caption('Let's see the AI forecast.')
+if st.button('✨ what actually happened',type='primary',disabled=revealed):
     st.session_state[reveal_key]=True
     st.rerun()
 if revealed:
