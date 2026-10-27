@@ -1,12 +1,13 @@
 # What Happens Next?
 
-A presentation-ready Streamlit demonstration of a PyTorch LSTM trained to predict the next event in BPIC2012 loan-application histories. Inspired by doctoral research on deep learning for business process mining.
+An interactive Streamlit demonstration of a PyTorch LSTM trained to predict the next event in BPIC 2012 loan-application histories. Inspired by doctoral research on deep learning for business process mining.
 
 ## What the screen shows
 
 - A readable journey: event cards in order, plus a lane map of the same path
 - A next-step distribution, and how concentrated that distribution has been as the case unfolds
-- An audience guess that stays hidden until you ask for the model, when presentation mode is on
+- A decision graph: the continuation the network would write, one highest-scoring step at a time
+- An optional **Guess first** mode that keeps the forecast hidden until you have made your own guess
 
 ## Run locally
 
@@ -17,18 +18,18 @@ streamlit run app.py
 
 Keep `model.pt`, `metadata.json`, and `demo_cases.csv.gz` beside `app.py`.
 
-## Showcase script
+## Try it
 
-Stay on **Application 115**. Turn on **Presentation mode**.
+1. Pick an application and move the **Events observed so far** slider to choose how much of its history the model sees.
+2. Read the journey: colour is the kind of step, arrow thickness is how often one step followed another.
+3. Turn on **Guess first**, open **The forecast**, pick what you think happens next, then show the model.
+4. Reveal the recorded step. When the model is wrong, the ranked scores show how close it came.
 
-1. Open on the journey at 12 events. Read the cards left to right, then the map: colour is the kind of step, thickness is how often one step followed another.
-2. Move the slider to 18 events. Offer follow-up starts to repeat, and several next steps are plausible. Ask the room what happens next.
-3. Open **The forecast**. Let people vote, then show the model. Say clearly that the scores are uncalibrated, and that 52.5% top-1 accuracy is about three times the 17.3% majority baseline — still not a promise.
-4. Reveal the recorded step. If the model is wrong, that is part of the point.
+A good starting point is **Application 115**: at 15 events the model picks a less common continuation and gets it right; at 35 events (offer accepted) it is split almost evenly between two outcomes.
 
 ## Limits
 
-- The live network's 52.5% is its own reported held-out top-1 accuracy. The dissertation's Model 1 reached 85.4% on BPIC 2012 and 91.2% on Helpdesk. Those are different models.
+- The live network's 52.5% is its own reported held-out top-1 accuracy, against a 17.3% majority-class baseline. The dissertation's Model 1 reached 85.4% on BPIC 2012 and 91.2% on Helpdesk. Those are different models.
 - Scores on this page are the live network's own outputs. They are not calibrated probabilities.
 - Friendly labels are display translations. The model still uses the original activity identifiers.
 - The pictures describe the recorded path and the forecast. They do not explain a cause inside the LSTM, a waiting time, or the effect of changing the process.
