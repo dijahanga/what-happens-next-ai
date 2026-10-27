@@ -1056,8 +1056,7 @@ def render_forecast(case_id, prefix, options, invalid, revealed, actual, present
     else:
         st.caption(
             "Each arrow is the activity with the highest score, and the number on it is that score. "
-            "The chain stops at the end of the case, when the model chooses to stay on the same step, after five steps, or when the next score falls under the threshold. "
-            "This is the single-case graph from Chapter 3, drawn with the network running on this page."
+            "This is a single-case graph, drawn with the network running on this page."
         )
 
     st.markdown("##### How concentrated the forecast has been")
