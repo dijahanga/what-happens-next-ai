@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent
 
 st.set_page_config(
     page_title="What Happens Next?",
-    page_icon="KH",
+    page_icon="◆",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -1372,7 +1372,7 @@ st.markdown(
   <div class="stat"><b>{lift:.1f}×</b><span>Accuracy against that baseline</span></div>
   <div class="stat"><b>{results['cases']:,}</b><span>Applications in the source log</span></div>
 </div>
-<div class="fine">The dissertation's unidirectional model reached 85.4% next-activity accuracy on BPIC 2012. The network on this page is a smaller demonstration of that task: {pct(accuracy, 1)} held-out top-1, from {results['test_prefixes']:,} prefixes. Its scores are uncalibrated.</div>
+<div class="fine">My PhD research achieved 85.4% accuracy in predicting the next activity in a business process. This interactive demonstration uses a smaller, separately trained AI model that correctly predicted the next activity in approximately {pct(accuracy, 1)} of its test examples. The percentages shown represent the model's estimates, not guaranteed outcomes.</div>
 """,
     unsafe_allow_html=True,
 )
