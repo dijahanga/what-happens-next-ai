@@ -994,7 +994,7 @@ def render_forecast(case_id, prefix, options, invalid, revealed, actual, present
         reminder = friendly(prefix[-1]) if prefix else "the opening of the application"
         st.markdown(
             f'<div class="panel">The last recorded step is <b>{escape(reminder)}</b>. '
-            "Ask the room to choose before the model is shown. "
+            "Make your own guess before the model is shown. "
             f"The options are the continuations that follow this step most often in {LOG_PHRASE}.</div>",
             unsafe_allow_html=True,
         )
@@ -1010,7 +1010,7 @@ def render_forecast(case_id, prefix, options, invalid, revealed, actual, present
             voted = True
         else:
             guess = None
-            st.caption(f"At this point {LOG_PHRASE} continues in only one way, so there is little to vote on. Move further into the case.")
+            st.caption(f"At this point {LOG_PHRASE} continues in only one way, so there is little to guess. Move further into the case.")
         if not st.session_state.get(show_key, False):
             if st.button("Show the model's forecast", type="secondary"):
                 st.session_state[show_key] = True
@@ -1092,7 +1092,7 @@ def render_forecast(case_id, prefix, options, invalid, revealed, actual, present
         st.caption(f"It was choice {rank} in the model distribution, with a score of {pct(actual_p, 1)}.")
         if presentation and voted and successors:
             usual = successors[0][0]
-            human = "The room matched the record." if guess == actual else f"The room chose {friendly(guess)}."
+            human = "Your guess matched the record." if guess == actual else f"You guessed {friendly(guess)}."
             usual_text = (
                 "That is also the most common continuation in the extract."
                 if usual == actual
@@ -1328,12 +1328,10 @@ with st.sidebar:
         help="Predicted transitions below this score are left off the decision graph. The thesis used 0 to keep every transition and 0.8 to keep only the most likely paths.",
     )
     presentation = st.toggle(
-        "Presentation mode",
+        "Guess first",
         value=False,
-        help="Shows one chapter at a time and hides the forecast until the room has had a chance to guess.",
+        help="Shows one section at a time and hides the forecast until you have made your own guess.",
     )
-    if dataset_key == "included":
-        st.caption("Suggested for the talk: stay on application 115. Show the journey at 12 events, ask for a guess at 15, then jump to 35 (offer accepted) for the closing round.")
     st.divider()
     st.markdown("**Network**")
     st.caption(
@@ -1341,7 +1339,6 @@ with st.sidebar:
         f"input length {metadata['max_len']}. Trained on {results['train_cases']:,} cases, "
         f"tested on {results['test_cases']:,} held-out cases."
     )
-    st.caption("Built By Her · 27 October 2026")
     with st.expander("How to read the screen"):
         st.write("The cards are the recorded case in order. The map is that same case: colour is the kind of step, and arrow thickness is how often that hand-off happened.")
         st.write("The decision graph is the continuation the network would write, one highest-scoring step at a time. The number on each arrow is that score. Raising the threshold removes the less likely arrows.")
