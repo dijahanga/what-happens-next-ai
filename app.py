@@ -427,7 +427,9 @@ def predict(prefix):
         return [], 0.0
     sequence = [TOKENS["<START>"]] + [TOKENS[event] for event in prefix]
     sequence = sequence[-metadata["max_len"] :]
-    padded = [0] * (metadata["max_len"] - len(sequence)) + sequence
+    # Pad on the right: pack_padded_sequence reads the first `length` positions,
+    # so left padding would hide the real history behind padding tokens.
+    padded = sequence + [0] * (metadata["max_len"] - len(sequence))
     with torch.no_grad():
         probabilities = torch.softmax(model(torch.tensor([padded], dtype=torch.long))[0], dim=-1).tolist()
     invalid = sum(float(probabilities[TOKENS[token]]) for token in SPECIAL)
@@ -992,7 +994,7 @@ def render_forecast(case_id, prefix, options, invalid, revealed, actual, present
         reminder = friendly(prefix[-1]) if prefix else "the opening of the application"
         st.markdown(
             f'<div class="panel">The last recorded step is <b>{escape(reminder)}</b>. '
-        
+            "Ask the room to choose before the model is shown. "
             f"The options are the continuations that follow this step most often in {LOG_PHRASE}.</div>",
             unsafe_allow_html=True,
         )
@@ -1331,7 +1333,7 @@ with st.sidebar:
         help="Shows one chapter at a time and hides the forecast until the room has had a chance to guess.",
     )
     if dataset_key == "included":
-        st.caption("")
+        st.caption("Suggested for the talk: stay on application 115. Show the journey at 12 events, ask for a guess at 15, then jump to 35 (offer accepted) for the closing round.")
     st.divider()
     st.markdown("**Network**")
     st.caption(
@@ -1339,7 +1341,7 @@ with st.sidebar:
         f"input length {metadata['max_len']}. Trained on {results['train_cases']:,} cases, "
         f"tested on {results['test_cases']:,} held-out cases."
     )
-    st.caption("KHanga · October 2026")
+    st.caption("Built By Her · 27 October 2026")
     with st.expander("How to read the screen"):
         st.write("The cards are the recorded case in order. The map is that same case: colour is the kind of step, and arrow thickness is how often that hand-off happened.")
         st.write("The decision graph is the continuation the network would write, one highest-scoring step at a time. The number on each arrow is that score. Raising the threshold removes the less likely arrows.")
@@ -1370,7 +1372,7 @@ st.markdown(
   <div class="stat"><b>{lift:.1f}×</b><span>Accuracy against that baseline</span></div>
   <div class="stat"><b>{results['cases']:,}</b><span>Applications in the source log</span></div>
 </div>
-<div class="fine">My PhD research achieved {pct(accuracy, 1)} accuracy in predicting the next activity in a business process. This interactive demonstration uses a smaller, separately trained AI model that correctly predicted the next activity in approximately {results['test_prefixes']:} of its test examples. The percentages shown represent the model's estimates, not guaranteed outcomes. </div>
+<div class="fine">The dissertation's unidirectional model reached 85.4% next-activity accuracy on BPIC 2012. The network on this page is a smaller demonstration of that task: {pct(accuracy, 1)} held-out top-1, from {results['test_prefixes']:,} prefixes. Its scores are uncalibrated.</div>
 """,
     unsafe_allow_html=True,
 )
