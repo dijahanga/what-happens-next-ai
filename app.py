@@ -1010,7 +1010,7 @@ def render_forecast(case_id, prefix, options, invalid, revealed, actual, present
             voted = True
         else:
             guess = None
-            st.caption(f"At this point {LOG_PHRASE} continues in only one way, so there is little to guess. Move further into the case.")
+            st.caption(f"At this point {LOG_PHRASE} continues in only one way, so there is little to guess. Move further into the case")
         if not st.session_state.get(show_key, False):
             if st.button("Show the model's forecast", type="secondary"):
                 st.session_state[show_key] = True
