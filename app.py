@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent
 
 st.set_page_config(
     page_title="What Happens Next?",
-    page_icon="◆",
+    page_icon="KH",
     layout="wide",
     initial_sidebar_state="expanded",
 )
